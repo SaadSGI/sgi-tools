@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passport Size Photo Maker - SGI Tools</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 20px; background: #f9f9f9; }
+    h1 { color: #007acc; }
+    input { margin: 20px; }
+    canvas { border: 1px solid #ccc; margin-top: 10px; }
+    button { padding: 10px 20px; background: #007acc; color: white; border: none; border-radius: 5px; }
+    button:hover { background: #005fa3; }
+  </style>
+</head>
+<body>
+  <h1>Passport Size Photo Maker</h1>
+  <input type="file" accept="image/*" id="photoInput" />
+  <canvas id="photoCanvas" width="400" height="500"></canvas><br />
+  <button onclick="generate()">Generate</button>
+
+  <script>
+    const canvas = document.getElementById('photoCanvas');
+    const ctx = canvas.getContext('2d');
+    let img = new Image();
+
+    document.getElementById('photoInput').onchange = e => {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        img.onload = () => ctx.drawImage(img, 50, 50, 300, 400);
+        img.src = event.target.result;
+      }
+      reader.readAsDataURL(e.target.files[0]);
+    };
+
+    function generate() {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 50, 50, 300, 400);
+    }
+  </script>
+</body>
+</html>
